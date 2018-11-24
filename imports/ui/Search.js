@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Redirect} from 'react-router-dom';
+import {Redirect, withRouter} from 'react-router-dom';
 import {withCookies} from 'react-cookie';
 import {Container, Header, Form, Button} from 'semantic-ui-react';
 
@@ -22,13 +22,23 @@ class Search extends Component {
             <Header as='h2'>Welcome {nameOf}!</Header>
             <Form>
                 <Form.Field>
-                    <label>Your problem</label>
+                    <label>Your problem:</label>
                     <input onChange={this.searchChanged.bind(this)} placeholder='Type your problem or service you want' />
                 </Form.Field>
-                <Button onClick={(event) => {event && event.stopPropagation(); }} type='submit'>Search</Button>
+                <Button
+                    onClick={
+                        (event) => {
+                            event && event.stopPropagation();
+                            this.props.history.push(`/sort/${encodeURIComponent(this.state.searchText)}`);
+                        }
+                    }
+                    type='submit'
+                >
+                    Search
+                </Button>
             </Form>
         </Container>;
     }
 }
 
-export default withCookies(Search);
+export default withRouter(withCookies(Search));

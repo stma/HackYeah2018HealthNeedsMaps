@@ -16,8 +16,8 @@ export default class App extends Component {
                     <Switch>
                         <Route exact path='/' component={InitUser} />
                         <Route path='/search' component={Search} />
-                        {/*<Route path='/sort/:search' component={SortBy} />*/}
-                        {/*<Route path='/map/:search/:sort' component={MapView} />*/}
+                        <Route path='/sort/:search' component={SortBy} />
+                        <Route path='/map/:search/:sort' component={MapView} />
                     </Switch>
                 </div>
             </CookiesProvider>
