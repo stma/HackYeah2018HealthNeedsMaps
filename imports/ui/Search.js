@@ -5,8 +5,9 @@ import {Container, Header, Form, Button} from 'semantic-ui-react';
 
 class Search extends Component {
 
-    search() {
-
+    searchChanged(event) {
+        const searchText = event.target.value;
+        this.setState({searchText});
     }
 
     render() {
@@ -18,16 +19,13 @@ class Search extends Component {
             return <Redirect to='/' />;
 
         return <Container fluid>
-            <Header as='h2'>Welcome!</Header>
-            <p>
-                Please enable us to use browser location, to provide this awesome service of healthcare.
-            </p>
+            <Header as='h2'>Welcome {nameOf}!</Header>
             <Form>
                 <Form.Field>
                     <label>Your problem</label>
-                    <input onChange={this.search.bind(this)} placeholder='Nick or full name' />
+                    <input onChange={this.searchChanged.bind(this)} placeholder='Type your problem or service you want' />
                 </Form.Field>
-                <Button onClick={(event) => {event && event.stopPropagation(); cookies.set('name', nameOfInState); this.forceUpdate();}} type='submit'>Go</Button>
+                <Button onClick={(event) => {event && event.stopPropagation(); }} type='submit'>Search</Button>
             </Form>
         </Container>;
     }
