@@ -28,11 +28,9 @@ Meteor.methods(
                             if (error) {
                                 reject(error);
                             } else {
-                                const aggregates = [];
-                                result.forEach(
-                                    (record) => aggregates.push([record._id.coordinates, record.count])
-                                );
-                                resolve(Promise.all(aggregates));
+                                resolve(result.map(
+                                    (r) => ([r._id.coordinates, r.count])
+                                ).toArray());
                             }
                         }
                     )

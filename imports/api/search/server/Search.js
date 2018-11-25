@@ -18,7 +18,7 @@ Meteor.methods(
             {
                 searchText: searchText,
                 createdAt: new Date(),
-                userId: userId,//Meteor.users.findOne(this.userId).username,
+                userId: userId,
                 queueLength: queueLength,
                 diseaseType: diseaseType,
                 location: {

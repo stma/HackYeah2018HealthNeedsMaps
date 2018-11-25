@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import {withRouter} from 'react-router-dom';
+import {withCookies} from 'react-cookie';
 import axios from 'axios';
 
 import GoogleMapReact from 'google-map-react';
@@ -35,14 +36,25 @@ class MapView extends Component {
     state = {
         latitude: 37.7577,
         longitude: -122.4376,
-        zoom: 8,
+        zoom: 10,
         markers: []
     };
 
     componentDidMount() {
         getLocation().then(
-            (p) => this.setState({latitude: p.latitude, longitude: p.longitude})
-        );
+            (p) => {
+                this.setState({latitude: p.latitude, longitude: p.longitude});
+                return p;
+            }
+        ).then(
+            (p) => Meteor.call(
+                'search.do',
+                benefitToRequest[benefitList.indexOf(this.props.match.params.search)][0],
+                this.props.cookies.get('userId'),
+                null,
+                [p.latitude, p.longitude]
+            )
+    );
 
         Promise.all(
             benefitToRequest[benefitList.indexOf(this.props.match.params.search)].map(
@@ -84,4 +96,4 @@ class MapView extends Component {
     }
 }
 
-export default withRouter(MapView);
+export default withRouter(withCookies(MapView));
