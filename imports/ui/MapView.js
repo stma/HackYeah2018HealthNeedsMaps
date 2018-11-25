@@ -133,25 +133,6 @@ class MapView extends Component {
     render() {
         return <div style={{height: '95vh' , width: '100%' }} id='map' />;
     }
-
-    // render() {
-    //     return <div style={{ height: '100vh', width: '100%' }}>
-    //         {/*<GoogleMapReact*/}
-    //             {/*bootstrapURLKeys={{ key: 'AIzaSyCo8HcPurLzb8JoBz3da3ufAcurDdE-Koc' }}*/}
-    //             {/*center={{lat: this.state.latitude, lng: this.state.longitude}}*/}
-    //             {/*zoom={this.state.zoom}*/}
-    //         {/*>*/}
-    //             {/*{*/}
-    //                 {/*this.state.markers.map(*/}
-    //                     {/*(coord, id) =>*/}
-    //                         {/*<div key={id} style={greatPlaceStyle} lat={coord.coordinate[0]} lng={coord.coordinate[1]}>*/}
-    //                             {/*<div>{coord.text}</div>*/}
-    //                         {/*</div>*/}
-    //                 {/*)*/}
-    //             {/*}*/}
-    //         {/*</GoogleMapReact>*/}
-    //     </div>;
-    // }
 }
 
 export default withRouter(withCookies(MapView));
