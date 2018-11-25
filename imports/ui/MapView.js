@@ -1,9 +1,11 @@
 import React, {Component} from 'react';
 import {withRouter} from 'react-router-dom';
+import axios from 'axios';
 
 import GoogleMapReact from 'google-map-react';
 
 import {getLocation} from './Utils';
+import {benefitList, benefitToRequest} from './SearchTextMap';
 
 
 const K_SIZE = 40;
@@ -41,33 +43,23 @@ class MapView extends Component {
         getLocation().then(
             (p) => this.setState({latitude: p.latitude, longitude: p.longitude})
         );
-        Promise.resolve(
-            [
-                {
-                    coordinate: [52.2878885, 21.0099406],
-                    text: 'F'
-                },
-                {
-                    coordinate: [52.2888885, 21.0099406],
-                    text: 'A'
-                },
-                {
-                    coordinate: [52.2898885, 21.0109406],
-                    text: 'G'
-                },
-                {
-                    coordinate: [52.2858885, 21.0059406],
-                    text: 'E'
-                },
-                {
-                    coordinate: [52.2838885, 21.0079406],
-                    text: 'T'
-                }
 
-            ]
+        Promise.all(
+            benefitToRequest[benefitList.indexOf(this.props.match.params.search)].map(
+                (searchBenefit) => axios.get(
+                    `https://api.nfz.gov.pl/queues?page=1&limit=25&format=json&case=1&province=07&locality=Warszawa&benefit=${searchBenefit}`
+                )
+            )
         ).then(
-            (coords) => {
-                this.setState({markers: coords});
+            (results) => {
+                const fu = results.flatMap(
+                    (r) => r.data.data.map(
+                        (inst) => {
+                            return ({text: `${inst.attributes.benefit} (${inst.attributes.address} = ${inst.attributes.phone})`, coordinate: [inst.attributes.latitude, inst.attributes.longitude]})
+                        }
+                    )
+                );
+                this.setState({markers: fu});
             }
         );
     }
@@ -82,7 +74,7 @@ class MapView extends Component {
                 {
                     this.state.markers.map(
                         (coord, id) =>
-                            <div key={id} style={greatPlaceStyle} lat={coord.coordinate[1]} lng={coord.coordinate[1]}>
+                            <div key={id} style={greatPlaceStyle} lat={coord.coordinate[0]} lng={coord.coordinate[1]}>
                                 <div>{coord.text}</div>
                             </div>
                     )

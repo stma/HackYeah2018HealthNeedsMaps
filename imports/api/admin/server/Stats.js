@@ -1,6 +1,4 @@
 import {Meteor} from 'meteor/meteor';
-import {Mongo} from 'meteor/mongo';
-import {check} from 'meteor/check';
 import {Search} from "../../search/server/Search";
 
 Meteor.methods(
@@ -22,15 +20,22 @@ Meteor.methods(
         'stats.generateMap'() {
             return new Promise(
                 (resolve, reject) => {
-                    Search.rawCollection().aggregate([
-                        {$group: {_id: '$location', count: {$sum: 1}}}
-                    ], function (error, result) {
-                        const response = [];
-                        result.forEach(function (record) {
-                            response.push([record._id.coordinates, record.count]);
-                        });
-                        resolve(response);
-                    });
+                    Search.rawCollection().aggregate(
+                        [
+                            {$group: {_id: '$location', count: {$sum: 1}}}
+                        ],
+                        (error, result) => {
+                            if (error) {
+                                reject(error);
+                            } else {
+                                const aggregates = [];
+                                result.forEach(
+                                    (record) => aggregates.push([record._id.coordinates, record.count])
+                                );
+                                resolve(Promise.all(aggregates));
+                            }
+                        }
+                    )
                 }
             );
         },
