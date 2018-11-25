@@ -39,6 +39,10 @@ class MapView extends Component {
         markers: []
     };
 
+    componentWillUnmount() {
+        this.state.markers && this.state.markers.forEach((m) => m.setMap(null))
+    }
+
     componentDidMount() {
         getLocation().then(
             (p) => {
@@ -53,7 +57,9 @@ class MapView extends Component {
                 null,
                 [p.latitude, p.longitude]
             )
-    );
+        ).then(
+            () => this.initMap()
+        );
 
         Promise.all(
             benefitToRequest[benefitList.indexOf(this.props.match.params.search)].map(
@@ -62,37 +68,90 @@ class MapView extends Component {
                 )
             )
         ).then(
-            (results) => {
-                const fu = results.flatMap(
-                    (r) => r.data.data.map(
-                        (inst) => {
-                            return ({text: `${inst.attributes.benefit}  (${inst.attributes.address} = ${inst.attributes.phone})`, coordinate: [inst.attributes.latitude, inst.attributes.longitude]})
-                        }
-                    )
-                );
-                this.setState({markers: fu});
-            }
+            (results) => this.addMarkers(results)
         );
     }
 
-    render() {
-        return <div style={{ height: '100vh', width: '100%' }}>
-            <GoogleMapReact
-                bootstrapURLKeys={{ key: 'AIzaSyCo8HcPurLzb8JoBz3da3ufAcurDdE-Koc' }}
-                center={{lat: this.state.latitude, lng: this.state.longitude}}
-                zoom={this.state.zoom}
-            >
-                {
-                    this.state.markers.map(
-                        (coord, id) =>
-                            <div key={id} style={greatPlaceStyle} lat={coord.coordinate[0]} lng={coord.coordinate[1]}>
-                                <div>{coord.text}</div>
-                            </div>
-                    )
-                }
-            </GoogleMapReact>
-        </div>;
+    addMarkers(results) {
+        if (window.google && window.google.maps && window.google.maps.Map && this.state.map) {
+            const fu = results.flatMap(
+                (r) => r.data.data.map(
+                    (inst) => {
+                        const infowindow = new google.maps.InfoWindow({
+                            content: `<div id="content">
+    <h1 id="firstHeading" class="firstHeading">${inst.attributes.benefit}</h1>
+    <div id="bodyContent">
+        <p><b>${inst.attributes.address}</b></p>
+        <i class="ui phone icon"}></i> ${inst.attributes.phone}
+    </div>
+</div>`
+                        });
+
+                        const marker = new window.google.maps.Marker({
+                            position: {
+                                lat: inst.attributes.latitude,
+                                lng: inst.attributes.longitude
+                            }, map: this.state.map,
+                            title: inst.attributes.place
+                        });
+
+                        marker.addListener('click', function() {
+                            infowindow.open(map, marker);
+                        });
+
+                        return marker;
+                        // return ({text: `${inst.attributes.benefit}  (${inst.attributes.address} = ${inst.attributes.phone})`, coordinate: [inst.attributes.latitude, inst.attributes.longitude]})
+                    }
+                )
+            );
+            this.setState({markers: fu});
+        } else {
+            setTimeout(this.addMarkers.bind(this, results), 500);
+        }
     }
+
+    initMap() {
+        if (window.google && window.google.maps && window.google.maps.Map) {
+            const map = new window.google.maps.Map(
+                document.getElementById('map'), {
+                    center: {lat: this.state.latitude, lng: this.state.longitude},
+                    zoom: 11
+                });
+
+            google.maps.event.addDomListener(window, "resize", function() {
+                const center = map.getCenter();
+                google.maps.event.trigger(map, "resize");
+                map.setCenter(center);
+            });
+
+            this.setState({map}, this.forceUpdate);
+        } else {
+            setTimeout(this.initMap.bind(this), 500);
+        }
+    }
+
+    render() {
+        return <div style={{height: '95vh' , width: '100%' }} id='map' />;
+    }
+
+    // render() {
+    //     return <div style={{ height: '100vh', width: '100%' }}>
+    //         {/*<GoogleMapReact*/}
+    //             {/*bootstrapURLKeys={{ key: 'AIzaSyCo8HcPurLzb8JoBz3da3ufAcurDdE-Koc' }}*/}
+    //             {/*center={{lat: this.state.latitude, lng: this.state.longitude}}*/}
+    //             {/*zoom={this.state.zoom}*/}
+    //         {/*>*/}
+    //             {/*{*/}
+    //                 {/*this.state.markers.map(*/}
+    //                     {/*(coord, id) =>*/}
+    //                         {/*<div key={id} style={greatPlaceStyle} lat={coord.coordinate[0]} lng={coord.coordinate[1]}>*/}
+    //                             {/*<div>{coord.text}</div>*/}
+    //                         {/*</div>*/}
+    //                 {/*)*/}
+    //             {/*}*/}
+    //         {/*</GoogleMapReact>*/}
+    //     </div>;
+    // }
 }
 
 export default withRouter(withCookies(MapView));

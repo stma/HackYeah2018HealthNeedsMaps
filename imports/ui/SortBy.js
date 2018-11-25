@@ -30,7 +30,7 @@ class SortBy extends Component {
                     <Icon size="massive" name="sign language" color={this.state.chR ? 'teal' : ''} /><Header>Rating</Header>
                 </Grid.Row>
                 <Grid.Row onClick={this.toggle.bind(this, 'Q')}>
-                    <Icon size="massive" color={this.state.chQ ? 'teal' : ''} name="stop watch" /><Header>Queue</Header>
+                    <Icon size="massive" color={this.state.chQ ? 'teal' : ''} name="stopwatch" /><Header>Queue</Header>
                 </Grid.Row>
                 <Grid.Row onClick={this.toggle.bind(this, 'S')}>
                     <Icon size="massive" color={this.state.chS ? 'teal' : ''} name="euro sign" /><Header>State/Private institute</Header>

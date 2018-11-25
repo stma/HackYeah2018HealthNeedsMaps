@@ -14,7 +14,7 @@ export default class App extends Component {
     render() {
         return (
             <CookiesProvider>
-                <div style={{minHeight: '100%'}}>
+                <div style={{minHeight: '100%', borderTop: '5vh solid #E91D63'}}>
                     <Switch>
                         <Route exact path='/' component={InitUser} />
                         <Route path='/search' component={Search} />
