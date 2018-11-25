@@ -14,7 +14,25 @@ Meteor.methods(
 
         },
         'stats.sortByDiseaseType'(diseaseType) {
-            return Search.find({diseaseType: diseaseType}).fetch();
+            return new Promise(
+                (resolve, reject) => {
+                    Search.rawCollection().aggregate(
+                        [
+                            {$match:{diseaseType:diseaseType}},
+                            {$group: {_id: '$location', count: {$sum: 1}}}
+                        ],
+                        (error, result) => {
+                            if (error) {
+                                reject(error);
+                            } else {
+                                resolve(result.map(
+                                    (r) => ([r._id.coordinates, r.count])
+                                ).toArray());
+                            }
+                        }
+                    )
+                }
+            );
 
         },
         'stats.generateMap'() {
