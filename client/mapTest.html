@@ -1,11 +1,15 @@
+<body>
+
+</body>
 <script type="text/javascript"
         src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCo8HcPurLzb8JoBz3da3ufAcurDdE-Koc&libraries=visualization">
 </script>
 
+<script>
 /* Data points defined as an array of LatLng objects */
 var heatmapData = [
 {location: new google.maps.LatLng(37.782, -122.447), weight: 9999},
-new google.maps.LatLng(37.782, -122.445),
+{location: new google.maps.LatLng(37.782, -120.447), weight: 4500},
 new google.maps.LatLng(37.782, -122.443),
 new google.maps.LatLng(37.782, -122.441),
 new google.maps.LatLng(37.782, -122.439),
@@ -32,3 +36,4 @@ var heatmap = new google.maps.visualization.HeatmapLayer({
 data: heatmapData
 });
 heatmap.setMap(map);
+</script>
