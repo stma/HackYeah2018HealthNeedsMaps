@@ -6,25 +6,26 @@ export const Search = new Mongo.Collection('search');
 
 Meteor.methods(
     {
-        'search.do'(searchText, userId, sort, location) {
+        'search.do'(searchText, userId, sort, location, queueLength, diseaseType) {
         check(searchText, String);
         check(userId, String);
 
-        if (! this.userId) {
+        if (! userId) {
             throw new Meteor.Error('not-authorized');
         }
 
         Search.insert(
             {
-                text,
+                searchText: searchText,
                 createdAt: new Date(),
-                owner: this.userId,
-                username: Meteor.users.findOne(this.userId).username,
+                userId: userId,//Meteor.users.findOne(this.userId).username,
+                queueLength: queueLength,
+                diseaseType: diseaseType,
+                location: {
+                    type: "Point",
+                    coordinates: [location[0].toFixed(3), location[1].toFixed(3)]
+                }
             }
         );
-    },
-
-    'search.groupBySearch'() {
-
     },
 });
