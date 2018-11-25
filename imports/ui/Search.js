@@ -29,8 +29,8 @@ class Search extends Component {
         if (!nameOf)
             return <Redirect to='/' />;
 
-        return <Container fluid>
-            <Header as='h2'>Welcome {nameOf}!</Header>
+        return <Container textAlign='center' fluid>
+            <Header style={{paddingTop: 30}} as='h2'>Welcome {nameOf}!</Header>
             <Form>
                 <Form.Field>
                     <label>Your problem:</label>
