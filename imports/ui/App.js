@@ -6,6 +6,7 @@ import InitUser from './InitUser';
 import SortBy from './SortBy';
 import MapView from './MapView';
 import Search from './Search';
+import AdminStat from './AdminStat';
 
 import 'semantic-ui-css';
 
@@ -20,6 +21,7 @@ export default class App extends Component {
                         <Route path='/search' component={Search} />
                         <Route path='/sort/:search' component={SortBy} />
                         <Route path='/map/:search/:sort' component={MapView} />
+                        <Route path='/admin' component={AdminStat} />
                     </Switch>
                 </div>
             </CookiesProvider>
