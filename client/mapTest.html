@@ -1,0 +1,63 @@
+<body>
+<meta charset="UTF-8" />
+<script type="text/javascript"
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCo8HcPurLzb8JoBz3da3ufAcurDdE-Koc&libraries=visualization">
+</script>
+<script>
+</script>
+<select onchange="changeHeatmap()" style="position: fixed; top:20px; z-index: 9999999999999999999; left: 230px; height:40px;">
+    <option value="0">All Diseases</option>
+    <option value="1">ODDZIAŁ KARDIOCHIRURGICZNY</option>
+    <option value="2">ODDZIAŁ NEUROLOGICZNY</option>
+    <option value="3">DZIAŁ (PRACOWNIA) FIZJOTERAPII</option>
+    <option value="4">OPIEKA DOMOWA  RODZINNA</option>
+    <option value="5">ODDZIAŁ REHABILITACJI PULMONOLOGICZNEJ</option>
+    <option value="6">ŚWIADCZENIA Z ZAKRESU KARDIOLOGII</option>
+    <option value="7">PORADNIA GASTROENTEROLOGICZNA</option>
+    <option value="8">ODDZIAŁ OKULISTYCZNY</option>
+    <option value="9">ODDZIAŁ CHIRURGII URAZOWO-ORTOPEDYCZNEJ</option>
+    <option value="10">ODDZIAŁ ALERGOLOGICZNY</option>
+    <option value="11">ODDZIAŁ GASTROENTEROLOGICZNY</option>
+    <option value="12">ODDZIAŁ HEMATOLOGICZNY</option>
+</select>
+<div id="map" style="width: 100%; height: 100%;">
+
+</div>
+<script>
+    function changeHeatmap() {
+        //request for selected diseaseType id
+        //change heatmapData
+        //regenerate map (basically need to reexecute all below code)
+        alert(document.querySelector('select').value)
+    };
+    /* Data points defined as an array of LatLng objects */
+    var heatmapData = [
+        {location: new google.maps.LatLng(53.782, 22.447), weight: 9999},
+        {location: new google.maps.LatLng(51.782, 20.447), weight: 4500},
+        new google.maps.LatLng(37.782, -122.443),
+        new google.maps.LatLng(37.782, -122.441),
+        new google.maps.LatLng(37.782, -122.439),
+        new google.maps.LatLng(37.782, -122.437),
+        new google.maps.LatLng(37.782, -122.435),
+        new google.maps.LatLng(37.785, -122.447),
+        new google.maps.LatLng(37.785, -122.445),
+        new google.maps.LatLng(37.785, -122.443),
+        new google.maps.LatLng(37.785, -122.441),
+        new google.maps.LatLng(37.785, -122.439),
+        new google.maps.LatLng(37.785, -122.437),
+        new google.maps.LatLng(37.785, -122.435)
+    ];
+
+    var poland = new google.maps.LatLng(52.2251731, 20.9610747);
+
+    map = new google.maps.Map(document.getElementById('map'), {
+        center: poland,
+        zoom: 6,
+    });
+
+    var heatmap = new google.maps.visualization.HeatmapLayer({
+        data: heatmapData
+    });
+    heatmap.setMap(map);
+</script>
+</body>
