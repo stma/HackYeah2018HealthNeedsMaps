@@ -9,7 +9,7 @@ import {getLocation} from './Utils';
 import {benefitList, benefitToRequest} from './SearchTextMap';
 
 
-const K_SIZE = 40;
+const K_SIZE = 35;
 
 const greatPlaceStyle = {
     // initially any map object has left top corner at lat lng coordinates
@@ -19,8 +19,7 @@ const greatPlaceStyle = {
     height: K_SIZE,
     left: -K_SIZE / 2,
     top: -K_SIZE / 2,
-
-    border: '5px solid #f44336',
+    background: 'url("https://maps.google.com/mapfiles/kml/shapes/library_maps.png")',
     borderRadius: K_SIZE,
     backgroundColor: 'white',
     textAlign: 'center',
@@ -36,7 +35,7 @@ class MapView extends Component {
     state = {
         latitude: 37.7577,
         longitude: -122.4376,
-        zoom: 10,
+        zoom: 12,
         markers: []
     };
 
@@ -67,7 +66,7 @@ class MapView extends Component {
                 const fu = results.flatMap(
                     (r) => r.data.data.map(
                         (inst) => {
-                            return ({text: `${inst.attributes.benefit} (${inst.attributes.address} = ${inst.attributes.phone})`, coordinate: [inst.attributes.latitude, inst.attributes.longitude]})
+                            return ({text: `${inst.attributes.benefit}  (${inst.attributes.address} = ${inst.attributes.phone})`, coordinate: [inst.attributes.latitude, inst.attributes.longitude]})
                         }
                     )
                 );
