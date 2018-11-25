@@ -79,7 +79,7 @@ class MapView extends Component {
     render() {
         return <div style={{ height: '100vh', width: '100%' }}>
             <GoogleMapReact
-                bootstrapURLKeys={{ key: 'AIzaSyAv3WO4KdShpB-adbwKcagGAqgl-PeK4Vc' }}
+                bootstrapURLKeys={{ key: 'AIzaSyCo8HcPurLzb8JoBz3da3ufAcurDdE-Koc' }}
                 center={{lat: this.state.latitude, lng: this.state.longitude}}
                 zoom={this.state.zoom}
             >
