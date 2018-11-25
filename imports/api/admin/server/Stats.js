@@ -20,15 +20,18 @@ Meteor.methods(
 
         },
         'stats.generateMap'() {
-            let response = [];
-            Search.rawCollection().aggregate([
-                {$group: {_id: '$location', count: {$sum: 1}}}
-            ], function (error, result) {
-                result.forEach(function (record) {
-                    console.log([record._id.coordinates, record.count]);
-                    response.push([record._id.coordinates, record.count]);
-                })
-            });
-
+            return new Promise(
+                (resolve, reject) => {
+                    Search.rawCollection().aggregate([
+                        {$group: {_id: '$location', count: {$sum: 1}}}
+                    ], function (error, result) {
+                        const response = [];
+                        result.forEach(function (record) {
+                            response.push([record._id.coordinates, record.count]);
+                        });
+                        resolve(response);
+                    });
+                }
+            );
         },
     });
