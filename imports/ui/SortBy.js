@@ -3,11 +3,18 @@ import {Redirect, withRouter} from 'react-router-dom';
 import {withCookies} from 'react-cookie';
 import {Container, Checkbox, Form, Button} from 'semantic-ui-react';
 
+import {getLocation} from './Utils';
+
+
 class SortBy extends Component {
 
     state = { chR: false, chQ: false, chS: false};
 
     toggle = (name) => this.setState({[`ch${name}`]: !this.state[`ch${name}`]});
+
+    componentDidMount() {
+        getLocation();
+    }
 
     render() {
         const {cookies} = this.props;

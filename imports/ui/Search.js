@@ -3,7 +3,14 @@ import {Redirect, withRouter} from 'react-router-dom';
 import {withCookies} from 'react-cookie';
 import {Container, Header, Form, Button} from 'semantic-ui-react';
 
+import {getLocation} from './Utils';
+
+
 class Search extends Component {
+
+    componentDidMount() {
+        getLocation();
+    }
 
     searchChanged(event) {
         const searchText = event.target.value;
