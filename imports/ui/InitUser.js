@@ -44,7 +44,7 @@ class InitUser extends Component {
         if (nameOf)
             return <Redirect to='/search' />;
 
-        return <div>
+        return <div style={{paddingTop: 30}}>
             {
                 this.state.time
                 && <Dimmer active={time} verticalAlign='top'>
@@ -55,7 +55,7 @@ class InitUser extends Component {
             {
                 !this.state.time
                 && <Container fluid>
-                    <Header as='h2'>Welcome!</Header>
+                    <Header as='h2' style={{textAlign: 'center'}}>Welcome!</Header>
                     <p>
                         Please enable us to use browser location, to provide this awesome service of healthcare.
                     </p>
@@ -64,12 +64,13 @@ class InitUser extends Component {
                             <label>Your name</label>
                             <input onChange={this.nameChanged.bind(this)} placeholder='Nick or full name'/>
                         </Form.Field>
-                        <Button onClick={(event) => {
+                        <Button style={{float: 'right'}} onClick={(event) => {
                             event && event.stopPropagation();
                             cookies.set('name', nameOfInState);
                             this.forceUpdate();
                         }} type='submit'>Go</Button>
                     </Form>
+                    <Image src='/robotdoctor.png' fluid style={{position: 'fixed', bottom: -40, right: -130}} />
                 </Container>
             }
         </div>;
