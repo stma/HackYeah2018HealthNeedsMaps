@@ -7,6 +7,8 @@ import SortBy from './SortBy';
 import MapView from './MapView';
 import Search from './Search';
 
+import 'semantic-ui-css';
+
 
 export default class App extends Component {
     render() {

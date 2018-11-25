@@ -70,7 +70,7 @@ class InitUser extends Component {
                             this.forceUpdate();
                         }} type='submit'>Go</Button>
                     </Form>
-                    <Image src='/robotdoctor.png' fluid style={{position: 'fixed', bottom: -40, right: -130}} />
+                    <Image src='/robotdoctor.png' style={{position: 'fixed', bottom: -40, right: -130}} />
                 </Container>
             }
         </div>;

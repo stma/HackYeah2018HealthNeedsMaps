@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {Redirect, withRouter} from 'react-router-dom';
 import {withCookies} from 'react-cookie';
-import {Container, Checkbox, Form, Button} from 'semantic-ui-react';
+import {Container, Icon, Grid, Button, Header} from 'semantic-ui-react';
 
 import {getLocation} from './Utils';
 
@@ -24,13 +24,19 @@ class SortBy extends Component {
         if (!nameOf)
             return <Redirect to='/' />;
 
-        return <Container fluid>
-            <Form>
-                <Checkbox label='Rating' onChange={this.toggle.bind(this, 'R')} checked={this.state.chR} toggle />
-                <Checkbox label='Queue' onChange={this.toggle.bind(this, 'Q')} checked={this.state.chQ} toggle />
-                <Checkbox label='State/Private institute' onChange={this.toggle.bind(this, 'S')} checked={this.state.chS} toggle />
-            </Form>
-            <Button type='submit'
+        return <Container style={{paddingTop: 30}} fluid>
+            <Grid centered>
+                <Grid.Row onClick={this.toggle.bind(this, 'R')} >
+                    <Icon size="massive" name="sign language" color={this.state.chR ? 'teal' : ''} /><Header>Rating</Header>
+                </Grid.Row>
+                <Grid.Row onClick={this.toggle.bind(this, 'Q')}>
+                    <Icon size="massive" color={this.state.chQ ? 'teal' : ''} name="stop watch" /><Header>Queue</Header>
+                </Grid.Row>
+                <Grid.Row onClick={this.toggle.bind(this, 'S')}>
+                    <Icon size="massive" color={this.state.chS ? 'teal' : ''} name="euro sign" /><Header>State/Private institute</Header>
+                </Grid.Row>
+            </Grid>
+            <Button type='submit' style={{float: 'right', marginTop: 30}}
                 onClick={
                     (event) => {
                         event && event.stopPropagation();
