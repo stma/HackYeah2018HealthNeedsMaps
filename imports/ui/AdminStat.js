@@ -17,7 +17,9 @@ class AdminStat extends Component {
     };
 
     changeHeatmap(event) {
-        Meteor.call('stats.sortByDiseaseType', event.value).then(
+        //console.log(event.target.value);
+        //console.log(this.value);
+        Meteor.call('stats.sortByDiseaseType', event.target.value).then(
             () => Meteor.call('stats.generateMap')
         ).then(
             (heatmapData) => {
